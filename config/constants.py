@@ -10,7 +10,7 @@ IPV4_CIDR_PREFIX = '/'
 IP_COMMAND_TEMPLATE = "ip addr show dev {}"
 
 # Nmap command template
-NMAP_COMMAND_TEMPLATE = "sudo nmap -sP {}"
+NMAP_COMMAND_TEMPLATE = "sudo nmap -T5 -p 80 {}"
 
 # Define regex patterns for extracting IP and MAC addresses from nmap output
 IP_PATTERN = r"Nmap scan report for (\S+)"
