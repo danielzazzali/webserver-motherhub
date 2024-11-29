@@ -1,52 +1,49 @@
-from flask import Flask, render_template
+from flask import Flask
+
 from config.config import load_env, get_env_variable
-from controllers.mode_controller import mode_bp
-from controllers.network_controller import network_bp, get_devices
-from controllers.wifi_controller import wifi_bp, get_ap_info_route
+from config.constants import PORT
+from controllers.device_mode_controller import mode_bp
+from controllers.wifi_controller import wifi_bp
 
 load_env()
-
-port = int(get_env_variable('PORT'))
-
+port = int(get_env_variable(PORT))
 app = Flask(__name__)
-app.register_blueprint(network_bp)
-app.register_blueprint(wifi_bp)
 app.register_blueprint(mode_bp)
+app.register_blueprint(wifi_bp)
+
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    return "Hello World"
 
 def test_api():
     with app.test_client() as client:
 
-        response_devices = client.get('/devices')
-        print(response_devices.get_json())
+        #############################################################################
+        ###################### Test the mode API  ###################################
+        #############################################################################
+        # Test the device mode API
+        device_mode = client.get('/device_mode')
+        print(device_mode.get_json())
 
-        response_ap = client.get('/ap_info')
-        print(response_ap.get_json())
+        device_mode = client.post('/device_mode', json={'mode': 'NOTAPNORSTA'})
+        print(device_mode.get_json())
 
-        response_mode = client.get('/mode')
-        print(response_mode.get_json())
+        #device_mode = client.post('/device_mode', json={'mode': 'AP'})
+        #print(device_mode.get_json())
 
-        new_mode = "AP"
-        #response_set_mode = client.post('/mode', json={'mode': new_mode})
-        #print(response_set_mode.get_json())
+        #############################################################################
+        ###################### Test the ethernet API  ###############################
+        #############################################################################
 
-        response_mode = client.get('/mode')
-        print(response_mode.get_json())
 
-        #new_ssid = "Kvn"
-        #response_change_ssid = client.post(f'/change_ssid/{new_ssid}')
-        #print(response_change_ssid.get_json())
 
-        #new_password = "12345678b"
-        #response_change_password = client.post(f'/change_password/{new_password}')
-        #print(response_change_password.get_json())
-
+        #############################################################################
+        ###################### Test the wi-fi API  ##################################
+        #############################################################################
 
 
 
 
 if __name__ == '__main__':
-    app.run(port=port)
+    test_api()
+    #app.run(port=port)

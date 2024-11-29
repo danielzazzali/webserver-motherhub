@@ -1,34 +1,29 @@
-# Network interface variable key in the environment
-WIRELESS_NETWORK_INTERFACE_KEY = 'WIRELESS_NETWORK_INTERFACE'
-WIRELESS_CONNECTION_NAME_KEY = 'WIRELESS_CONNECTION_NAME'
-MODE_FILE_PATH = 'MODE_FILE_PATH'
+PORT = 'PORT'
 
-# Subnet mask prefix length (CIDR) for IPv4 addresses
-IPV4_CIDR_PREFIX = '/'
+ETHERNET_CONNECTION = 'ETHERNET_CONNECTION'
+WIRELESS_CONNECTION = 'WIRELESS_CONNECTION'
 
-# Command to get IP and mask
-IP_COMMAND_TEMPLATE = "ip addr show dev {}"
+DEVICE_MODE_FILE_PATH = 'DEVICE_MODE_FILE_PATH'
 
-# Nmap command template
-NMAP_COMMAND_TEMPLATE = "sudo nmap -sn {}"
+REBOOT_SYSTEM = "sudo reboot"
 
-# Define regex patterns for extracting IP and MAC addresses from nmap output
-IP_PATTERN = r"Nmap scan report for (\S+)"
-MAC_PATTERN = r"MAC Address: ([0-9A-F:]+)"
+NMCLI_GET_IP4_ADDRESS = "nmcli -f IP4.ADDRESS connection show {}"
+NMCLI_GET_CONNECTION_SSID_AND_PASSWORD = "nmcli connection show {} --show-secrets"
+NMCLI_CHANGE_AP_SSID = "nmcli connection modify {} 802-11-wireless.ssid {}"
+NMCLI_CHANGE_AP_PASSWORD = "nmcli connection modify {} 802-11-wireless-security.psk {}"
+NMCLI_BRING_CONNECTION_DOWN = "nmcli connection down {}"
+NMCLI_BRING_CONNECTION_UP = "nmcli connection up {}"
+NMCLI_GET_STATE_OF_CONNECTION = "nmcli -t -f GENERAL.STATE connection show {}"
 
-# Define the MAC prefix
-MAC_PREFIX = "B8:27:EB"
+NMCLI_SSID_KEY = "802-11-wireless.ssid"
+NMCLI_PASSWORD_KEY = "802-11-wireless-security.psk"
+NMCLI_STATE_ACTIVATED_VALUE = "activated"
 
-# Port to access Daughter box webserver
-PORT_SUFFIX = ":81"
+NMAP_SCAN_NO_PORT = "sudo nmap -sn {}"
 
-NMCLI_COMMAND_TEMPLATE = "nmcli connection show {} --show-secrets"
+NMAP_IP_PATTERN = r"Nmap scan report for (\S+)"
+NMAP_MAC_PATTERN = r"MAC Address: ([0-9A-F:]+)"
 
-SSID_KEY = "802-11-wireless.ssid"
-PASSWORD_KEY = "802-11-wireless-security.psk"
+MAC_PREFIX_FOR_RASPBERRY = "B8:27:EB"
 
-NMCLI_COMMAND_CHANGE_SSID_TEMPLATE = "nmcli connection modify {} 802-11-wireless.ssid {}"
-NMCLI_COMMAND_CHANGE_PASSWORD_TEMPLATE = "nmcli connection modify {} 802-11-wireless-security.psk {}"
-
-NMCLI_COMMAND_DOWN_TEMPLATE = "nmcli connection down {}"
-NMCLI_COMMAND_UP_TEMPLATE = "nmcli connection up {}"
+DAUGHTERBOX_WEBSERVER_PORT = ":81"

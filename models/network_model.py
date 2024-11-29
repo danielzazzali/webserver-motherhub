@@ -2,26 +2,28 @@ import ipaddress
 import re
 import subprocess
 
-from config.constants import WIRELESS_NETWORK_INTERFACE_KEY, IPV4_CIDR_PREFIX, IP_COMMAND_TEMPLATE, \
-    NMAP_COMMAND_TEMPLATE, MAC_PREFIX, IP_PATTERN, MAC_PATTERN, PORT_SUFFIX
-from config.config import get_env_variable
+
+from config.constants import NMCLI_GET_IP4_ADDRESS, NMAP_SCAN_NO_PORT, NMAP_IP_PATTERN, NMAP_MAC_PATTERN, \
+    MAC_PREFIX_FOR_RASPBERRY, DAUGHTERBOX_WEBSERVER_PORT
 
 
-def get_ip_and_mask(interface: str) -> tuple:
+def get_ip_and_mask(connection) -> dict:
     """
     Retrieves the IP address and subnet mask for the specified network interface.
 
     Args:
-        interface (str): The name of the network interface (e.g., 'eno1').
+        connection (str): The name of the network connection (e.g., 'WLAN', 'ETH').
 
     Returns:
-        tuple: A tuple containing the IP address and subnet mask (e.g., ('192.168.1.10', '255.255.255.0')).
+        dict: A dictionary containing the IP address and subnet mask with the key 'ip'.
 
     Raises:
         RuntimeError: If the command to fetch network details fails.
         ValueError: If the IP address and mask cannot be found.
     """
-    command = IP_COMMAND_TEMPLATE.format(interface)
+
+    command = NMCLI_GET_IP4_ADDRESS.format(connection)
+
     result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
     if result.returncode != 0:
@@ -30,16 +32,16 @@ def get_ip_and_mask(interface: str) -> tuple:
     ip, mask = None, None
 
     for line in result.stdout.splitlines():
-        if 'inet ' in line:
-            parts = line.strip().split()
-            ip_mask = parts[1]
+        if 'IP4.ADDRESS' in line:
+            parts = line.split(':')
+            ip_mask = parts[1].strip()
             ip, mask = ip_mask.split('/')
             break
 
     if ip is None or mask is None:
-        raise ValueError(f"Could not find the IP address and mask for the interface '{interface}'.")
+        raise ValueError("Could not find the IP address and mask for the connection 'AP'.")
 
-    return ip, mask
+    return {'ip': ip, 'mask': mask}
 
 
 def calculate_network(ip: str, mask: str) -> str:
@@ -55,8 +57,8 @@ def calculate_network(ip: str, mask: str) -> str:
     """
     try:
         # Create an IP network object using the IP address and mask
-        network = ipaddress.IPv4Network(f'{ip}{IPV4_CIDR_PREFIX}{mask}', strict=False)
-        return f"{network.network_address}{IPV4_CIDR_PREFIX}{mask}"
+        network = ipaddress.IPv4Network(f'{ip}/{mask}', strict=False)
+        return f"{network.network_address}/{mask}"
     except ValueError as e:
         # Return an empty string if there's an issue with the calculation
         print(f"Error in network calculation: {e}")
@@ -77,7 +79,7 @@ def run_nmap_scan_ip_and_mac(network: str) -> list:
     try:
         # Run nmap to discover devices
         result = subprocess.run(
-            NMAP_COMMAND_TEMPLATE.format(network),
+            NMAP_SCAN_NO_PORT.format(network),
             shell=True,
             capture_output=True,
             text=True,
@@ -87,8 +89,8 @@ def run_nmap_scan_ip_and_mac(network: str) -> list:
         lines = result.stdout.splitlines()
 
         # Compile regex patterns
-        ip_pattern = re.compile(IP_PATTERN)
-        mac_pattern = re.compile(MAC_PATTERN)
+        ip_pattern = re.compile(NMAP_IP_PATTERN)
+        mac_pattern = re.compile(NMAP_MAC_PATTERN)
 
         current_ip = None
 
@@ -101,7 +103,7 @@ def run_nmap_scan_ip_and_mac(network: str) -> list:
             if mac_match and current_ip:
                 mac = mac_match.group(1)
                 # Filter devices by MAC address prefix
-                if mac.startswith(MAC_PREFIX):
+                if mac.startswith(MAC_PREFIX_FOR_RASPBERRY):
                     devices.append({"ip": current_ip, "mac": mac})
                 current_ip = None  # Reset after capturing IP-MAC pair
 
@@ -132,49 +134,7 @@ def add_port_suffix_to_devices(devices: list) -> list:
             raise ValueError("Each device must be a dictionary.")
         if 'ip' not in device:
             raise KeyError("Each device dictionary must contain an 'ip' key.")
-        device['ip_with_port'] = f"{device['ip']}{PORT_SUFFIX}"
+        device['ip_with_port'] = f"{device['ip']}{DAUGHTERBOX_WEBSERVER_PORT}"
 
     return devices
 
-def get_connected_devices() -> list:
-    """
-    Retrieves the connected devices on the network.
-
-    Returns:
-        list: A list of dictionaries with IP, MAC addresses, and IP with port suffix of the connected devices,
-              or an empty list if an error occurs.
-              Example: [{"ip": "192.168.1.1", "mac": "AA:BB:CC:DD:EE:FF", "ip_with_port": "192.168.1.1:81"}, ...]
-    """
-    try:
-        # Get the network interface name from the environment
-        interface = get_env_variable(WIRELESS_NETWORK_INTERFACE_KEY)
-        if not interface:
-            print(f"Error: Environment variable '{WIRELESS_NETWORK_INTERFACE_KEY}' is missing.")
-            return []
-
-        # Get the IP and subnet mask of the interface
-        ip, mask = get_ip_and_mask(interface)
-        if not ip or not mask:
-            print("Error: IP address or subnet mask could not be retrieved.")
-            return []
-
-        # Calculate the network address
-        network = calculate_network(ip, mask)
-        if not network:
-            print("Error: Invalid network address.")
-            return []
-
-        # Run the nmap scan and get the devices
-        mapped_devices = run_nmap_scan_ip_and_mac(network)
-        if not mapped_devices:
-            print("Error: No devices found on the network.")
-            return []
-
-        # Add port suffix to the devices
-        devices = add_port_suffix_to_devices(mapped_devices)
-
-        return devices
-
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-        return []
