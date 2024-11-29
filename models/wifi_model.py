@@ -227,13 +227,13 @@ def get_ap_connected_devices() -> list:
         connection = get_env_variable(WIRELESS_CONNECTION)
 
         # Get the IP and subnet mask of the interface
-        ip, mask = get_ip_and_mask(connection)
-        if not ip or not mask:
+        ip_and_mask = get_ip_and_mask(connection)
+        if not ip_and_mask:
             print("Error: IP address or subnet mask could not be retrieved.")
             return []
 
         # Calculate the network address
-        network = calculate_network(ip, mask)
+        network = calculate_network(ip_and_mask['ip'], ip_and_mask['mask'])
         if not network:
             print("Error: Invalid network address.")
             return []

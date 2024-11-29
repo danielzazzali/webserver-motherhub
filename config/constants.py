@@ -21,7 +21,7 @@ NMCLI_STATE_ACTIVATED_VALUE = "activated"
 
 NMAP_SCAN_NO_PORT = "sudo nmap -sn {}"
 
-NMAP_IP_PATTERN = r"Nmap scan report for (\S+)"
+NMAP_IP_PATTERN = r"Nmap scan report for (\d{1,3}(?:\.\d{1,3}){3})"
 NMAP_MAC_PATTERN = r"MAC Address: ([0-9A-F:]+)"
 
 MAC_PREFIX_FOR_RASPBERRY = "B8:27:EB"

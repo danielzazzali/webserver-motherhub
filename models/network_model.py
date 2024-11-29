@@ -67,17 +67,19 @@ def calculate_network(ip: str, mask: str) -> str:
 
 def run_nmap_scan_ip_and_mac(network: str) -> list:
     """
-    Runs nmap to discover devices in the given network and retrieves their IP and MAC addresses.
+    Runs nmap to discover devices on the specified network and retrieves their IP and MAC addresses,
+    filtering only those whose MAC addresses start with the specified Raspberry Pi prefix.
 
     Args:
         network (str): The network address in CIDR format (e.g., '192.168.1.0/24').
 
     Returns:
-        list: A list of dictionaries with IP and MAC addresses of the discovered devices.
-              Example: [{"ip": "192.168.1.1", "mac": "AA:BB:CC:DD:EE:FF"}, ...]
+        list: A list of dictionaries with the IP and MAC addresses of the discovered devices
+              that match the Raspberry Pi MAC prefix.
+              Example: [{"ip": "192.168.1.1", "mac": "B8:27:EB:AA:BB:CC"}, ...]
     """
     try:
-        # Run nmap to discover devices
+        # Run the nmap command to perform a ping scan on the specified network
         result = subprocess.run(
             NMAP_SCAN_NO_PORT.format(network),
             shell=True,
@@ -85,31 +87,36 @@ def run_nmap_scan_ip_and_mac(network: str) -> list:
             text=True,
             check=True
         )
-        devices = []
-        lines = result.stdout.splitlines()
 
-        # Compile regex patterns
+        devices = []  # List to store discovered devices matching the MAC prefix
+        lines = result.stdout.splitlines()  # Split output into lines for processing
+
+        # Compile regular expressions to match IP and MAC address patterns
         ip_pattern = re.compile(NMAP_IP_PATTERN)
         mac_pattern = re.compile(NMAP_MAC_PATTERN)
 
-        current_ip = None
+        current_ip = None  # Variable to hold the current IP address being processed
 
         for line in lines:
-            ip_match = ip_pattern.search(line)
-            mac_match = mac_pattern.search(line)
+            # Look for IP address lines without parentheses (to exclude the scanning device's IP)
+            if "(" not in line:
+                ip_match = ip_pattern.search(line)
+                if ip_match:
+                    current_ip = ip_match.group(1)  # Extract the IP address
 
-            if ip_match:
-                current_ip = ip_match.group(1)
+            # Look for MAC address lines following an IP address
+            mac_match = mac_pattern.search(line)
             if mac_match and current_ip:
-                mac = mac_match.group(1)
-                # Filter devices by MAC address prefix
+                mac = mac_match.group(1)  # Extract the MAC address
+                # Check if the MAC address starts with the Raspberry Pi prefix
                 if mac.startswith(MAC_PREFIX_FOR_RASPBERRY):
-                    devices.append({"ip": current_ip, "mac": mac})
-                current_ip = None  # Reset after capturing IP-MAC pair
+                    devices.append({"ip": current_ip, "mac": mac})  # Store the IP-MAC pair
+                current_ip = None  # Reset the current IP after storing or discarding
 
         return devices
 
     except subprocess.CalledProcessError as e:
+        # Handle errors that occur during the execution of the nmap command
         print(f"Error running nmap: {e}")
         return []
 
