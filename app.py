@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 from config.config import load_env, get_env_variable
 from config.constants import PORT
@@ -13,7 +13,7 @@ app.register_blueprint(wifi_bp)
 
 @app.route('/')
 def index():
-    return "Hello World"
+    return render_template('index.html')
 
 def test_api():
     with app.test_client() as client:
@@ -47,5 +47,5 @@ def test_api():
 
 
 if __name__ == '__main__':
-    test_api()
-    #app.run(port=port)
+    #test_api()
+    app.run(port=port)

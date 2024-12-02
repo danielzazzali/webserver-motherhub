@@ -6,6 +6,7 @@ WIRELESS_CONNECTION = 'WIRELESS_CONNECTION'
 DEVICE_MODE_FILE_PATH = 'DEVICE_MODE_FILE_PATH'
 
 REBOOT_SYSTEM = "sudo reboot"
+SHUTDOWN_SYSTEM = "sudo shutdown -h now"
 
 NMCLI_GET_IP4_ADDRESS = "nmcli -f IP4.ADDRESS connection show {}"
 NMCLI_GET_CONNECTION_SSID_AND_PASSWORD = "nmcli connection show {} --show-secrets"

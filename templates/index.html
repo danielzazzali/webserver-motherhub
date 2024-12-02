@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChilipepperLABS</title>
+
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/layout.css">
+    <link rel="stylesheet" href="../static/css/components.css">
+</head>
+<body onload="initializePage()">
+    <div class="container">
+        <div class="header">
+            <h1>ChilipepperLABS</h1>
+            <div class="header-buttons">
+                <button onclick="refreshPage()">Refresh</button>
+                <button onclick="reboot()">Reboot</button>
+                <button onclick="shutdown()">Shutdown</button>
+            </div>
+        </div>
+        <div class="main">
+
+            <div class="sidebar">
+                <button onclick="changeContent('Contenido de Cámaras')">Cámaras</button>
+                <button onclick="changeContent('Configuración de Wifi')">Wifi</button>
+            </div>
+
+            <div class="content" id="content-panel">
+                <-- Content goes here -->
+            </div>
+
+        </div>
+    </div>
+
+    <script src="../static/js/main.js"></script>
+</body>
+</html>

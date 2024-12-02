@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models.device_mode_model import get_device_mode, set_device_mode
+from models.device_mode_model import get_device_mode, set_device_mode, delayed_reboot, delayed_shutdown
 
 mode_bp = Blueprint('mode', __name__)
 
@@ -21,3 +21,14 @@ def set_device_mode_route():
         return jsonify({'message': 'Mode set successfully'}), 200
     except (EnvironmentError, FileNotFoundError, ValueError) as e:
         return jsonify({'error': str(e)}), 400
+
+
+@mode_bp.route('/reboot', methods=['POST'])
+def reboot():
+    delayed_reboot()
+    return jsonify({"message": "System is rebooting"}), 200
+
+@mode_bp.route('/shutdown', methods=['POST'])
+def shutdown():
+    delayed_shutdown()
+    return jsonify({"message": "System is shutting down"}), 200

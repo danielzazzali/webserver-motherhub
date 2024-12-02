@@ -1,6 +1,7 @@
 import os
+import threading
 
-from config.constants import DEVICE_MODE_FILE_PATH, REBOOT_SYSTEM
+from config.constants import DEVICE_MODE_FILE_PATH, REBOOT_SYSTEM, SHUTDOWN_SYSTEM
 
 
 def get_device_mode() -> str:
@@ -65,3 +66,17 @@ def reboot_system():
     Reboots the system.
     """
     os.system(REBOOT_SYSTEM)
+
+
+def shutdown_system():
+    """
+    Shuts down the system.
+    """
+    os.system(SHUTDOWN_SYSTEM)
+
+
+def delayed_reboot():
+    threading.Timer(1, reboot_system).start()
+
+def delayed_shutdown():
+    threading.Timer(1, shutdown_system).start()
