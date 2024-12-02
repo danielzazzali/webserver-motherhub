@@ -76,7 +76,7 @@ def shutdown_system():
 
 
 def delayed_reboot():
-    threading.Timer(1, reboot_system).start()
+    threading.Timer(3, reboot_system).start()
 
 def delayed_shutdown():
-    threading.Timer(1, shutdown_system).start()
+    threading.Timer(3, shutdown_system).start()

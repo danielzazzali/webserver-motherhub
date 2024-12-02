@@ -3,36 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChilipepperLABS</title>
+    <title>MotherHub</title>
 
     <link rel="stylesheet" href="../static/css/reset.css">
     <link rel="stylesheet" href="../static/css/layout.css">
     <link rel="stylesheet" href="../static/css/components.css">
+
+    <script src="../static/js/endpoints.js" defer></script>
+    <script src="../static/js/main.js" defer></script>
+
 </head>
-<body onload="initializePage()">
+<body>
     <div class="container">
         <div class="header">
-            <h1>ChilipepperLABS</h1>
+            <h1>MotherHub ChilipepperLABS</h1>
             <div class="header-buttons">
                 <button onclick="refreshPage()">Refresh</button>
-                <button onclick="reboot()">Reboot</button>
-                <button onclick="shutdown()">Shutdown</button>
+                <button onclick="rebootAsync()">Reboot</button>
+                <button onclick="shutdownAsync()">Shutdown</button>
             </div>
         </div>
         <div class="main">
 
             <div class="sidebar">
-                <button onclick="changeContent('Contenido de Cámaras')">Cámaras</button>
-                <button onclick="changeContent('Configuración de Wifi')">Wifi</button>
+                <button onclick="changeContentToCameras()">Cámaras</button>
+                <button onclick="changeContentToWifi()">Wifi</button>
             </div>
 
             <div class="content" id="content-panel">
-                <-- Content goes here -->
+                ChilipepperLABS
             </div>
 
         </div>
     </div>
 
-    <script src="../static/js/main.js"></script>
 </body>
 </html>

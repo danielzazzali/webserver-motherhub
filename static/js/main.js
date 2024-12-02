@@ -1,35 +1,48 @@
+async function changeContentToCameras() {
 
-function changeContent(content) {
-    document.getElementById('content-panel').textContent = content;
+    const data = await getConnectedDevices();
+
+    const contentPanel = document.getElementById('content-panel');
+
+    contentPanel.innerHTML = '';
+
+    const deviceCardsContainer = document.createElement('div');
+    deviceCardsContainer.classList.add('device-cards-container');
+
+    data.forEach(device => {
+
+        const card1 = document.createElement('div');
+        card1.classList.add('card');
+        card1.innerHTML = `
+            <div class="card-header">
+                <span class="emoji">🎥</span>
+                <h3>Camera: ${device.ip}</h3>
+            </div>
+            <button onclick="window.open('http://${device.ip}', '_blank')">Camera</button>
+        `;
+        deviceCardsContainer.appendChild(card1);
+
+        const card2 = document.createElement('div');
+        card2.classList.add('card');
+        card2.innerHTML = `
+            <div class="card-header">
+                <span class="emoji">💻</span>
+                <h3>DaughterBox: ${device.ip}</h3>
+            </div>
+            <button onclick="window.open('http://${device.ip_with_port}', '_blank')">DaughterBox</button>
+        `;
+        deviceCardsContainer.appendChild(card2);
+    });
+
+    contentPanel.appendChild(deviceCardsContainer);
+}
+
+function changeContentToWifi() {
+    document.getElementById('content-panel').textContent = "Wi-fi";
 }
 
 function refreshPage() {
     alert('Refreshing page...');
 }
 
-function reboot() {
-    alert('Rebooting system...');
-}
 
-function shutdown() {
-    alert('Shutting down...');
-}
-
-function initializePage() {
-    changeContent('Contenido de Cámaras');
-}
-
-async function loadExternalContent(url) {
-    try {
-        // Hacer una solicitud fetch para cargar el contenido HTML del template
-        const response = await fetch(url);
-        const html = await response.text();
-
-        // Insertar el contenido cargado en el panel
-        const contentPanel = document.getElementById('content-panel');
-        contentPanel.innerHTML = ''; // Limpiar contenido actual
-        contentPanel.innerHTML = html; // Insertar nuevo contenido
-    } catch (error) {
-        console.error('Error al cargar el contenido:', error);
-    }
-}
