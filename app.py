@@ -1,12 +1,12 @@
 from flask import Flask, render_template
 
-from config.config import load_env, get_env_variable
+
 from config.constants import PORT
 from controllers.device_mode_controller import mode_bp
 from controllers.wifi_controller import wifi_bp
 
-load_env()
-port = int(get_env_variable(PORT))
+
+port = int(PORT)
 app = Flask(__name__)
 app.register_blueprint(mode_bp)
 app.register_blueprint(wifi_bp)

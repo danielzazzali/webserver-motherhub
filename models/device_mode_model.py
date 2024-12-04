@@ -16,7 +16,7 @@ def get_device_mode() -> str:
         ValueError: If the mode is not 'AP' or 'STA'.
         FileNotFoundError: If the mode file does not exist.
     """
-    mode_file_path = os.getenv(DEVICE_MODE_FILE_PATH)
+    mode_file_path = DEVICE_MODE_FILE_PATH
     if not mode_file_path:
         raise EnvironmentError(f"{DEVICE_MODE_FILE_PATH} environment variable is not set")
 

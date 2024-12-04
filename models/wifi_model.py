@@ -1,9 +1,9 @@
 import subprocess
 
-from config.config import get_env_variable
+
 from config.constants import WIRELESS_CONNECTION, NMCLI_GET_CONNECTION_SSID_AND_PASSWORD, NMCLI_SSID_KEY, \
     NMCLI_PASSWORD_KEY, NMCLI_CHANGE_AP_SSID, NMCLI_CHANGE_AP_PASSWORD, NMCLI_BRING_CONNECTION_DOWN, \
-    NMCLI_BRING_CONNECTION_UP, NMCLI_STATE_ACTIVATED_VALUE, NMCLI_GET_STATE_OF_CONNECTION
+    NMCLI_BRING_CONNECTION_UP, NMCLI_STATE_ACTIVATED_VALUE, NMCLI_GET_STATE_OF_CONNECTION, BRIDGE_CONNECTION
 from models.network_model import get_ip_and_mask, calculate_network, run_nmap_scan_ip_and_mac, \
     add_port_suffix_to_devices
 
@@ -17,7 +17,7 @@ def get_ap_ssid_and_password() -> dict:
     """
     try:
         # Get the wireless connection name from the environment
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
 
         # Run the nmcli command to get the AP information
         command = NMCLI_GET_CONNECTION_SSID_AND_PASSWORD.format(connection_name)
@@ -65,7 +65,7 @@ def change_ap_ssid(new_ssid: str) -> bool:
             return False
 
         # Get the wireless connection name from the environment
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
 
         # Command to change the SSID
         command = NMCLI_CHANGE_AP_SSID.format(connection_name, new_ssid)
@@ -106,7 +106,7 @@ def change_ap_password(new_password: str) -> bool:
             return False
 
         # Get the wireless connection name from the environment
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
 
         # Command to change the password
         command = NMCLI_CHANGE_AP_PASSWORD.format(connection_name, new_password)
@@ -139,7 +139,7 @@ def bring_ap_connection_down() -> bool:
         bool: True if the connection was brought down successfully, False otherwise.
     """
     try:
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
         command = NMCLI_BRING_CONNECTION_DOWN.format(connection_name)
         result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
 
@@ -166,7 +166,7 @@ def bring_ap_connection_up() -> bool:
         bool: True if the connection was brought up successfully, False otherwise.
     """
     try:
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
         command = NMCLI_BRING_CONNECTION_UP.format(connection_name)
         result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
 
@@ -193,7 +193,7 @@ def is_ap_connection_active() -> bool:
         bool: True if the connection is active, False otherwise.
     """
     try:
-        connection_name = get_env_variable(WIRELESS_CONNECTION)
+        connection_name = WIRELESS_CONNECTION
         command = NMCLI_GET_STATE_OF_CONNECTION.format(connection_name)
         result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
 
@@ -224,7 +224,7 @@ def get_ap_connected_devices() -> list:
     """
     try:
         # Get the network interface name from the environment
-        connection = get_env_variable(WIRELESS_CONNECTION)
+        connection = BRIDGE_CONNECTION
 
         # Get the IP and subnet mask of the interface
         ip_and_mask = get_ip_and_mask(connection)
