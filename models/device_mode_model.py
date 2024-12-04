@@ -65,6 +65,7 @@ def reboot_system():
     """
     Reboots the system.
     """
+    turn_off_i2c_display()
     os.system(REBOOT_SYSTEM)
 
 
@@ -72,6 +73,7 @@ def shutdown_system():
     """
     Shuts down the system.
     """
+    turn_off_i2c_display()
     os.system(SHUTDOWN_SYSTEM)
 
 
@@ -80,3 +82,17 @@ def delayed_reboot():
 
 def delayed_shutdown():
     threading.Timer(3, shutdown_system).start()
+
+
+def turn_off_i2c_display(bus: int = 1, address: str = "0x3C"):
+    """
+    Turns off an I2C display using the `i2cset` command available on Linux systems.
+
+    Args:
+        bus (int): I2C bus number.
+        address (str): I2C address of the display in hexadecimal format (e.g., "0x3C").
+    """
+    try:
+        os.system(f"i2cset -y {bus} {address} 0x00 0xAE")
+    except Exception as e:
+        print(f"Error turning off the I2C display: {e}")
