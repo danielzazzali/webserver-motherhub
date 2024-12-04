@@ -48,7 +48,7 @@ def set_device_mode(new_mode: str):
     if new_mode not in ['AP', 'STA']:
         raise ValueError("Mode must be either 'AP' or 'STA'")
 
-    mode_file_path = os.getenv(DEVICE_MODE_FILE_PATH)
+    mode_file_path = DEVICE_MODE_FILE_PATH
     if not mode_file_path:
         raise EnvironmentError(f"{DEVICE_MODE_FILE_PATH} environment variable is not set")
 

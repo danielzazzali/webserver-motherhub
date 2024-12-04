@@ -141,7 +141,7 @@ def add_port_suffix_to_devices(devices: list) -> list:
             raise ValueError("Each device must be a dictionary.")
         if 'ip' not in device:
             raise KeyError("Each device dictionary must contain an 'ip' key.")
-        device['ip_with_port'] = f"{device['ip']}{DAUGHTERBOX_WEBSERVER_PORT}"
+        device['ip_with_port'] = f"{device['ip']}{':'}{DAUGHTERBOX_WEBSERVER_PORT}"
 
     return devices
 

@@ -8,8 +8,8 @@ DEVICE_MODE_FILE_PATH = '/home/capstone/mode'
 REBOOT_SYSTEM = "sudo reboot"
 SHUTDOWN_SYSTEM = "sudo shutdown -h now"
 
-NMCLI_GET_IP4_ADDRESS = "nmcli -f IP4.ADDRESS connection show {}"
-NMCLI_GET_CONNECTION_SSID_AND_PASSWORD = "nmcli connection show {} --show-secrets"
+NMCLI_GET_IP4_ADDRESS = "nmcli -t -f IP4.ADDRESS connection show {}"
+NMCLI_GET_CONNECTION_SSID_AND_PASSWORD = "nmcli -t connection show {} --show-secrets"
 NMCLI_CHANGE_AP_SSID = "nmcli connection modify {} 802-11-wireless.ssid {}"
 NMCLI_CHANGE_AP_PASSWORD = "nmcli connection modify {} 802-11-wireless-security.psk {}"
 NMCLI_BRING_CONNECTION_DOWN = "nmcli connection down {}"
@@ -27,4 +27,4 @@ NMAP_MAC_PATTERN = r"MAC Address: ([0-9A-F:]+)"
 
 MAC_PREFIX_FOR_RASPBERRY = "B8:27:EB"
 
-DAUGHTERBOX_WEBSERVER_PORT = ":81"
+DAUGHTERBOX_WEBSERVER_PORT = "81"
