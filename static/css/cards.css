@@ -1,0 +1,80 @@
+.device-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #fa9919;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    max-width: 400px;
+}
+
+.card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.card-header .emoji {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.card button {
+    background-color: #fa9919;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+    margin-top: 10px;
+    transition: opacity 0.3s ease;
+}
+
+.card button:hover {
+    opacity: 0.7;
+}
+
+.card-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.card-buttons button {
+    flex: 1;
+    background-color: #fa9919;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 5px;
+    font-size: 14px;
+    transition: opacity 0.3s ease;
+}
+
+.card-buttons button:hover {
+    opacity: 0.7;
+}

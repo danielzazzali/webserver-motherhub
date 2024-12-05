@@ -1,5 +1,4 @@
 async function changeContentToCameras() {
-
     const data = await getConnectedDevices();
 
     const contentPanel = document.getElementById('content-panel');
@@ -16,22 +15,14 @@ async function changeContentToCameras() {
         card1.innerHTML = `
             <div class="card-header">
                 <span class="emoji">🎥</span>
-                <h3>Camera: ${device.ip}</h3>
+                <h3>${device.ip}</h3>
             </div>
-            <button onclick="window.open('http://${device.ip}', '_blank')">Camera</button>
+            <div class="card-buttons">
+                <button onclick="window.open('http://${device.ip}', '_blank')">Camera</button>
+                <button onclick="window.open('http://${device.ip_with_port}', '_blank')">DaughterBox</button>
+            </div>
         `;
         deviceCardsContainer.appendChild(card1);
-
-        const card2 = document.createElement('div');
-        card2.classList.add('card');
-        card2.innerHTML = `
-            <div class="card-header">
-                <span class="emoji">💻</span>
-                <h3>DaughterBox: ${device.ip}</h3>
-            </div>
-            <button onclick="window.open('http://${device.ip_with_port}', '_blank')">DaughterBox</button>
-        `;
-        deviceCardsContainer.appendChild(card2);
     });
 
     contentPanel.appendChild(deviceCardsContainer);
@@ -42,7 +33,6 @@ function changeContentToWifi() {
 }
 
 function refreshPage() {
-    alert('Refreshing page...');
+    console.log('Refreshing page...');
 }
-
 

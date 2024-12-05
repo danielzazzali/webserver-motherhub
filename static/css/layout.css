@@ -14,7 +14,7 @@
     padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    background-color: #111;
-    border-left: 1px solid #444;
+    align-items: flex-start;
+    background-color: #fff;
+    border-left: 1px solid #ddd;
 }

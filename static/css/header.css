@@ -1,0 +1,31 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    height: 75px;
+    width: auto;
+}
+
+.header-buttons button {
+    background-color: transparent;
+    color: #fa9919;
+    border: 2px solid #fa9919;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+.header-buttons button:hover {
+    background-color: #fa9919;
+    color: #fff;
+}

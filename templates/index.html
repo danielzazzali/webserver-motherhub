@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MotherHub</title>
 
-    <link rel="stylesheet" href="../static/css/reset.css">
-    <link rel="stylesheet" href="../static/css/layout.css">
-    <link rel="stylesheet" href="../static/css/components.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
 
     <script src="../static/js/endpoints.js" defer></script>
     <script src="../static/js/main.js" defer></script>
+    <script src="../static/js/domEvents.js" defer></script>
 
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>MotherHub ChilipepperLABS</h1>
+            <img src="../static/images/logo-chilipepperlabs.png" alt="ChilipepperLABS Logo" class="logo">
             <div class="header-buttons">
-                <button onclick="refreshPage()">Refresh</button>
                 <button onclick="rebootAsync()">Reboot</button>
                 <button onclick="shutdownAsync()">Shutdown</button>
             </div>
@@ -26,14 +24,15 @@
         <div class="main">
 
             <div class="sidebar">
-                <button onclick="changeContentToCameras()">Cámaras</button>
-                <button onclick="changeContentToWifi()">Wifi</button>
+                <button id="cameras-tab">Cámaras</button>
+                <button id="wifi-tab">Wi-Fi</button>
             </div>
 
             <div class="content" id="content-panel">
-                ChilipepperLABS
+                <div class="loading-text">
+                    ChilipepperLABS
+                </div>
             </div>
-
         </div>
     </div>
 
