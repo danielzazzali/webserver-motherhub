@@ -66,23 +66,35 @@ function togglePasswordVisibility() {
 }
 
 function saveSsid() {
-    const newSsid = document.getElementById('ssid-input').value;
-    changeApSsid(newSsid).then(response => {
-        if (response.error) {
-            console.error('Failed to change SSID:', response.error);
-        } else {
-            console.log('SSID changed successfully');
-        }
+    showConfirmation('Are you sure you want to change the SSID?', () => {
+        const newSsid = document.getElementById('ssid-input').value;
+        closeModal(document.getElementById('confirmation-modal'));
+        showLoadingModal();
+        changeApSsid(newSsid).then(response => {
+            closeLoadingModal();
+            if (response.error) {
+                console.error('Failed to change SSID:', response.error);
+            } else {
+                console.log('SSID changed successfully');
+                showSuccess('SSID changed successfully');
+            }
+        });
     });
 }
 
 function savePassword() {
-    const newPassword = document.getElementById('password-input').value;
-    changeApPassword(newPassword).then(response => {
-        if (response.error) {
-            console.error('Failed to change password:', response.error);
-        } else {
-            console.log('Password changed successfully');
-        }
+    showConfirmation('Are you sure you want to change the password?', () => {
+        const newPassword = document.getElementById('password-input').value;
+        closeModal(document.getElementById('confirmation-modal'));
+        showLoadingModal();
+        changeApPassword(newPassword).then(response => {
+            closeLoadingModal();
+            if (response.error) {
+                console.error('Failed to change password:', response.error);
+            } else {
+                console.log('Password changed successfully');
+                showSuccess('Password changed successfully');
+            }
+        });
     });
 }
