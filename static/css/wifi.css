@@ -40,6 +40,10 @@
     color: #fff;
 }
 
+.input-container input::placeholder {
+    color: #fff;
+}
+
 .input-container .toggle-password {
     position: absolute;
     right: 60px;
