@@ -33,20 +33,6 @@ async function changeApPassword(newPassword) {
 }
 
 
-async function getDeviceMode() {
-    return fetchWithErrorHandling(`/device_mode`);
-}
-
-async function setDeviceMode(newMode) {
-    return fetchWithErrorHandling(`/device_mode`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ mode: newMode })
-    });
-}
-
 async function rebootSystem() {
     return fetchWithErrorHandling(`/reboot`, {
         method: 'POST'
@@ -59,26 +45,3 @@ async function shutdownSystem() {
     });
 }
 
-async function shutdownAsync() {
-    if (confirm('Are you sure you want to shut down the system?')) {
-        const response = await shutdownSystem();
-        if (response.error) {
-            console.error('Error:', response.error);
-        } else {
-            console.log(response.message);
-            alert('Shutting down...');
-        }
-    }
-}
-
-async function rebootAsync() {
-    if (confirm('Are you sure you want to reboot the system?')) {
-        const response = await rebootSystem();
-        if (response.error) {
-            console.error('Error:', response.error);
-        } else {
-            console.log(response.message);
-            alert('Rebooting system...');
-        }
-    }
-}

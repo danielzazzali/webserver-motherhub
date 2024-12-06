@@ -8,6 +8,15 @@ async function changeContentToCameras() {
     const deviceCardsContainer = document.createElement('div');
     deviceCardsContainer.classList.add('device-cards-container');
 
+    if(data.length === 0) {
+        const noDevices = document.createElement('div');
+        noDevices.classList.add('no-devices');
+        noDevices.textContent = 'No devices found';
+        deviceCardsContainer.appendChild(noDevices);
+        contentPanel.appendChild(deviceCardsContainer);
+        return;
+    }
+
     data.forEach(device => {
 
         const card1 = document.createElement('div');
@@ -19,7 +28,7 @@ async function changeContentToCameras() {
             </div>
             <div class="card-buttons">
                 <button onclick="window.open('http://${device.ip}', '_blank')">Camera</button>
-                <button onclick="window.open('http://${device.ip_with_port}', '_blank')">DaughterBox</button>
+                <button onclick="window.open('http://${device.ip_with_port}', '_blank')">DAUGHTER BOX</button>
             </div>
         `;
         deviceCardsContainer.appendChild(card1);
@@ -32,7 +41,25 @@ function changeContentToWifi() {
     document.getElementById('content-panel').textContent = "Wi-fi";
 }
 
-function refreshPage() {
-    console.log('Refreshing page...');
+
+async function shutdownAsync() {
+    showConfirmation('Are you sure you want to shut down the system?', async () => {
+        const response = await shutdownSystem();
+        if (response.error) {
+            console.error('Error:', response.error);
+        } else {
+            console.log(response.message);
+        }
+    });
 }
 
+async function rebootAsync() {
+    showConfirmation('Are you sure you want to reboot the system?', async () => {
+        const response = await rebootSystem();
+        if (response.error) {
+            console.error('Error:', response.error);
+        } else {
+            console.log(response.message);
+        }
+    });
+}

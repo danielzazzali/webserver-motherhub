@@ -56,3 +56,16 @@ p {
         transform: scale(1);
     }
 }
+
+.no-devices {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #fa9919;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
