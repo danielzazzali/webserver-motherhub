@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    margin: 0 auto;
+    margin-right: 10px;
 }
 
 .wifi-settings-container h2 {
@@ -13,40 +13,58 @@
     text-align: center;
 }
 
-.wifi-settings-container input {
+.input-container {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.input-container input {
+    flex: 1;
+    min-width: 250px;
+    padding: 10px;
     background-color: transparent;
     color: #fa9919;
     border: 2px solid #fa9919;
     border-radius: 20px;
-    padding: 10px 20px;
-    margin-bottom: 10px;
     font-size: 16px;
-    width: 100%;
-    max-width: 250px;
     text-align: center;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.wifi-settings-container input:focus {
+.input-container input:focus {
     background-color: #fa9919;
     color: #fff;
 }
 
-.input-container {
-    position: relative;
-    width: 100%;
-    max-width: 250px;
-    margin-bottom: 20px;
-}
-
-.input-container input {
-    width: 100%;
-}
-
-.toggle-password {
+.input-container .toggle-password {
     position: absolute;
-    right: 10px;
+    right: 60px;
     top: 50%;
-    transform: translateY(-75%);
+    transform: translateY(-50%);
     cursor: pointer;
+    font-size: 18px;
+    color: #fa9919;
+}
+
+.input-container button {
+    margin-left: 10px;
+    margin-right: 20px;
+    padding: 5px 5px;
+    background-color: #fa9919;
+    min-width: 70px;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 42px;
+}
+
+.input-container button:hover {
+    background-color: #e88a17;
 }

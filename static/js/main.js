@@ -49,33 +49,46 @@ async function changeContentToWifi() {
     title.textContent = 'Wi-Fi Settings';
     wifiSettingsContainer.appendChild(title);
 
+    const ssidInputContainer = document.createElement('div');
+    ssidInputContainer.classList.add('input-container');
+
     const ssidInput = document.createElement('input');
     ssidInput.type = 'text';
     ssidInput.placeholder = 'SSID';
     ssidInput.value = data.ssid;
-    wifiSettingsContainer.appendChild(ssidInput);
+    ssidInput.id = 'ssid-input';
+    ssidInputContainer.appendChild(ssidInput);
 
-    const inputContainer = document.createElement('div');
-    inputContainer.classList.add('input-container');
+    const saveSsidButton = document.createElement('button');
+    saveSsidButton.textContent = 'Save';
+    saveSsidButton.onclick = saveSsid;
+    ssidInputContainer.appendChild(saveSsidButton);
+
+    wifiSettingsContainer.appendChild(ssidInputContainer);
+
+
+    const passwordInputContainer = document.createElement('div');
+    passwordInputContainer.classList.add('input-container');
 
     const passwordInput = document.createElement('input');
     passwordInput.type = 'password';
-    passwordInput.id = 'password-input';
     passwordInput.placeholder = 'Password';
     passwordInput.value = data.password;
-    inputContainer.appendChild(passwordInput);
+    passwordInput.id = 'password-input';
+    passwordInputContainer.appendChild(passwordInput);
 
     const togglePassword = document.createElement('span');
     togglePassword.classList.add('toggle-password');
     togglePassword.textContent = '👁️';
     togglePassword.onclick = togglePasswordVisibility;
-    inputContainer.appendChild(togglePassword);
+    passwordInputContainer.appendChild(togglePassword);
 
-    wifiSettingsContainer.appendChild(inputContainer);
-    contentPanel.appendChild(wifiSettingsContainer);
+    const savePasswordButton = document.createElement('button');
+    savePasswordButton.textContent = 'Save';
+    savePasswordButton.onclick = savePassword;
+    passwordInputContainer.appendChild(savePasswordButton);
 
-
-
+    wifiSettingsContainer.appendChild(passwordInputContainer);
     contentPanel.appendChild(wifiSettingsContainer);
 
 }
@@ -108,6 +121,29 @@ async function rebootAsync() {
             console.error('Error:', response.error);
         } else {
             console.log(response.message);
+        }
+    });
+}
+
+
+function saveSsid() {
+    const newSsid = document.getElementById('ssid-input').value;
+    changeApSsid(newSsid).then(response => {
+        if (response.error) {
+            console.error('Failed to change SSID:', response.error);
+        } else {
+            console.log('SSID changed successfully');
+        }
+    });
+}
+
+function savePassword() {
+    const newPassword = document.getElementById('password-input').value;
+    changeApPassword(newPassword).then(response => {
+        if (response.error) {
+            console.error('Failed to change password:', response.error);
+        } else {
+            console.log('Password changed successfully');
         }
     });
 }
