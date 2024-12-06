@@ -1,0 +1,52 @@
+.wifi-settings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.wifi-settings-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #fa9919;
+    text-align: center;
+}
+
+.wifi-settings-container input {
+    background-color: transparent;
+    color: #fa9919;
+    border: 2px solid #fa9919;
+    border-radius: 20px;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.wifi-settings-container input:focus {
+    background-color: #fa9919;
+    color: #fff;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+    max-width: 250px;
+    margin-bottom: 20px;
+}
+
+.input-container input {
+    width: 100%;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-75%);
+    cursor: pointer;
+}

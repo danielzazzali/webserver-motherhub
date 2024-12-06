@@ -2,7 +2,6 @@ async function changeContentToCameras() {
     const data = await getConnectedDevices();
 
     const contentPanel = document.getElementById('content-panel');
-
     contentPanel.innerHTML = '';
 
     const deviceCardsContainer = document.createElement('div');
@@ -37,8 +36,57 @@ async function changeContentToCameras() {
     contentPanel.appendChild(deviceCardsContainer);
 }
 
-function changeContentToWifi() {
-    document.getElementById('content-panel').textContent = "Wi-fi";
+async function changeContentToWifi() {
+    const data = await getApSsidAndPassword();
+
+    const contentPanel = document.getElementById('content-panel');
+    contentPanel.innerHTML = '';
+
+    const wifiSettingsContainer = document.createElement('div');
+    wifiSettingsContainer.classList.add('wifi-settings-container');
+
+    const title = document.createElement('h2');
+    title.textContent = 'Wi-Fi Settings';
+    wifiSettingsContainer.appendChild(title);
+
+    const ssidInput = document.createElement('input');
+    ssidInput.type = 'text';
+    ssidInput.placeholder = 'SSID';
+    ssidInput.value = data.ssid;
+    wifiSettingsContainer.appendChild(ssidInput);
+
+    const inputContainer = document.createElement('div');
+    inputContainer.classList.add('input-container');
+
+    const passwordInput = document.createElement('input');
+    passwordInput.type = 'password';
+    passwordInput.id = 'password-input';
+    passwordInput.placeholder = 'Password';
+    passwordInput.value = data.password;
+    inputContainer.appendChild(passwordInput);
+
+    const togglePassword = document.createElement('span');
+    togglePassword.classList.add('toggle-password');
+    togglePassword.textContent = '👁️';
+    togglePassword.onclick = togglePasswordVisibility;
+    inputContainer.appendChild(togglePassword);
+
+    wifiSettingsContainer.appendChild(inputContainer);
+    contentPanel.appendChild(wifiSettingsContainer);
+
+
+
+    contentPanel.appendChild(wifiSettingsContainer);
+
+}
+
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById('password-input');
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+    } else {
+        passwordInput.type = 'password';
+    }
 }
 
 
