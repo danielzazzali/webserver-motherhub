@@ -1,11 +1,15 @@
 .device-cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    display: flex;
+    gap: 40px;
     padding: 20px;
     width: 100%;
-    box-sizing: border-box;
+    align-content: flex-start;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
+
 
 .card {
     background-color: #fff;
@@ -20,7 +24,7 @@
     height: 150px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease;
-    max-width: 400px;
+    width: 400px;
 }
 
 .card:hover {
